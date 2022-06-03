@@ -43,6 +43,7 @@ Create a `.env` file in the same directory as the `deploy.sh` script with real v
 
 ```
 TENANT=YOURTENANT.verify.ibm.com
+PORT=443
 API_CLIENT_ID=YOUR_CLIENT_ID
 API_CLIENT_SECRET=YOUR_CLIENT_SECRET
 USERNAME="testuser"
@@ -50,9 +51,11 @@ USERPWD="Passw0rd"
 MAPPED_USER="testuser"
 ```
 
+The `PORT` field is optional and is only really useful if testing against an ISVA instance configured for IBM Verify Gateway when the ISVA Web Reverse Proxy runs on a non-standard port.
+
 Edit the `pamdemo.yaml` file, and update the image location to your own docker registry - somewhere you've made your built image available. 
 
- Deploy the secret, pod, and NodePort service to kubernetes with:
+Deploy the secret, pod, and NodePort service to kubernetes with:
 
 ```
 ./deploy.sh
@@ -73,13 +76,13 @@ There is a `cleanup.sh` script to remove all artifacts as well.
 After the script is run, from an external shell try:
 
 ```
-ssh -l <value_of_USERNAME> -p 30222 localhost
+ssh -l <USERNAME> -p 30222 localhost
 ```
 
 In this example I am using the kubernetes deployment and port 30222 is the NodePort service exposed (see `pamdemo.yaml`). I can use localhost because I am on the worker node where the pod is deployed. This would be a different IP/hostname if your kubectl client is remote from the cluster.
 
 You should be prompted for a password, which will be the password you set in the variables in your `.env` file.
-After that you should be prompted for MFA (for the MAPPED_USER in the tenant) and be required to complete it before successful login.
+After that you should be prompted for MFA (for the MAPPED_USER in the TENANT) and be required to complete it before successful login.
 
 # Debugging tips
 
