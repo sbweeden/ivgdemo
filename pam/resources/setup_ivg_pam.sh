@@ -41,6 +41,10 @@ echo "TENANT: $TENANT"
 echo "API_CLIENT_ID: $API_CLIENT_ID"
 echo "USERNAME: $USERNAME"
 echo "ISVUSER: $MAPPED_USER"
+if [ ! -z "$PORT" ]
+then
+  echo "PORT: $PORT"
+fi
 
 # unzip and install IVG for Linux PAM
 echo "Unzipping and installing IVG for Linux PAM binaries"
@@ -59,6 +63,13 @@ sed -i \
   -e "s|.*\"/tmp/ibm_authd.log\".*|\"trace-file\":\"/tmp/ibm_authd.log\"|" \
   -e "s|.*\"/tmp/pam_ibm_auth.log\".*|\"trace-file\":\"/tmp/pam_ibm_auth.log\"|" \
   /etc/pam_ibm_auth.json
+if [ ! -z "$PORT" ]
+then
+  sed -i \
+    -e "s|.*\"port\".*|\"port\":\"$PORT\",|" \
+    /etc/pam_ibm_auth.json
+fi
+
 
 # create the nomfa group and add privileged users
 echo "Creating nomfa exemption group and adding root"

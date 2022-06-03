@@ -14,6 +14,7 @@ API_CLIENT_SECRET=YOUR_CLIENT_SECRET
 USERNAME="testuser"
 USERPWD="Passw0rd"
 MAPPED_USER="$USERNAME"
+PORT=443
 
 # Allow override of above variables from a local .env file (which is in .gitignore)
 # Basically you can create a .env file with those variables above defined in it with your 
@@ -36,7 +37,8 @@ kubectl create secret generic $PODNAME \
   --from-literal=API_CLIENT_SECRET=$API_CLIENT_SECRET \
   --from-literal=USERNAME=$USERNAME \
   --from-literal=USERPWD=$USERPWD \
-  --from-literal=MAPPED_USER=$MAPPED_USER
+  --from-literal=MAPPED_USER=$MAPPED_USER \
+  --from-literal=PORT=$PORT
  
 
 POD=$(kubectl get pod -o json | jq -r ".items[] | select(.metadata.labels.app==\"$PODNAME\") | .metadata.name")
