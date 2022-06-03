@@ -1,0 +1,10 @@
+[Unit]
+Description=Very last service
+After=default.target
+
+[Service]
+Type=oneshot
+ExecStart=/root/resources/setup_ivg_pam.sh
+
+[Install]
+WantedBy=default.target
