@@ -50,6 +50,8 @@ USERPWD="Passw0rd"
 MAPPED_USER="testuser"
 ```
 
+Edit the `pamdemo.yaml` file, and update the image location to your own docker registry - somewhere you've made your built image available. 
+
  Deploy the secret, pod, and NodePort service to kubernetes with:
 
 ```
