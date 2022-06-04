@@ -15,7 +15,6 @@ spec:
     envFrom:
     - secretRef:
         name: pamdemo
-    #command: [ "/root/resources/setup_ivg_pam.sh" ]
 ---
 apiVersion: v1
 kind: Service
