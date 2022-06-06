@@ -107,6 +107,15 @@ sed -i \
 echo "Creating test user: $USERNAME"
 useradd -p $(openssl passwd -1 "$USERPWD") -c "$MAPPED_USER" "$USERNAME"
 
+echo "Adding login message"
+cat <<EOF > /etc/motd
+=========================================================================
+=
+= Congrats - you have successfully performed multi-factor authentication!
+=
+=========================================================================
+EOF
+
 # restart sshd
 echo "Restarting sshd"
 systemctl restart sshd

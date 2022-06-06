@@ -35,7 +35,7 @@ Look at the `build.sh` script to see how to build the container, and the `Docker
 
 # Deploying the image
 
-After building it, you could run it directly with docker, or (as I prefer) run it on a Kubernetes cluster as a POD/svc. A secret is used to hold all environment variables.
+After building it, you could run it directly with docker (see `rundocker.sh`), or (as I prefer) run it on a Kubernetes cluster as a POD/svc. A secret is used to hold all environment variables.
 
 Ensure you have a kubernetes config set up, and kubectl is in your path and ready to run against your cluster.
 
