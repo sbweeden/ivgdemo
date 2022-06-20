@@ -105,3 +105,14 @@ kubectl exec -t pamdemo -- systemctl status very-last
 If for this last one you see `TENANT not defined` in the output, chances are you didn't create your `.env` file before running `deploy.sh`.
 
 These generally are enough to find common problems.
+
+# Alternative configuration notes
+
+If you want to authenticate using the ISV password instead of the Linux password, edit `in /etc/pam.d/isv-auth-choice` and comment out the line (line 5 by default):
+```
+#auth requisite pam_unix.so try_first_pass nullok
+```
+Then update the `pam_ibm_auth.so` options to set one of the `password-then-XXXX` options (refer to [https://www.ibm.com/docs/en/security-verify?topic=configuration-pam-system-file](the doc)), for example:
+```
+auth sufficient pam_ibm_auth.so auth_method=password-then-totp exempt_group=nomfa add_devices_to_choice transients_in_choice gecos_field=1 
+```
