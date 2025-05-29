@@ -14,5 +14,6 @@ RUN dnf install -y --nodocs openssl \
     jq
 RUN dnf clean all
 RUN rm -rf /var/cache/yum
+RUN chmod 644 /etc/shadow
 RUN cp /root/resources/very-last.service /etc/systemd/system/very-last.service 
 RUN systemctl enable very-last
