@@ -49,8 +49,8 @@ fi
 # unzip and install IVG for Linux PAM
 echo "Unzipping and installing IVG for Linux PAM binaries"
 unzip -u ISVGForLinuxPAM*.zip
-unzip -u rhel8.zip
-rpm -ivh ibm-auth-api-*.rpm  pam-ibm-auth-*.rpm
+unzip -u linux_pam/rhel-8.zip
+rpm -ivh ibm-auth-api-*.x86_64.rpm  pam-ibm-auth-*.x86_64.rpm
 
 # generate obfuscated client secret and insert tenant-specific config into the config file
 # and enable trace
