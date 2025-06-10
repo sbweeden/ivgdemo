@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: radiusdemo
+  labels:
+    app: radiusdemo
+spec:
+  containers:
+  - name: radiusdemo
+    image: us.icr.io/sweeden/radiusdemo:latest
+    ports:
+      - containerPort: 1812
+    securityContext:
+      privileged: true
+    envFrom:
+    - secretRef:
+        name: radiusdemo
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: radiusdemo
+spec:
+  ports:
+    - port: 1812
+      targetPort: 1812
+      name: radiusdemosvc
+      protocol: TCP
+      nodePort: 30123
+  selector:
+    app: radiusdemo
+  type: NodePort
+
