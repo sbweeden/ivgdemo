@@ -9,7 +9,7 @@ done
 # run it
 docker run --rm --detach \
   --privileged \
-  -p 127.0.0.1:30123:1812/tcp \
+  -p 127.0.0.1:30123:1812/udp \
   --env TENANT \
   --env API_CLIENT_ID \
   --env API_CLIENT_SECRET \
