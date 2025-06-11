@@ -141,3 +141,48 @@ kubectl exec -t radiusdemo -- systemctl status very-last
 If for this last one you see `TENANT not defined` in the output, chances are you didn't create your `.env` file before running `deploy.sh`.
 
 These generally are enough to find common problems.
+
+## Running the test client against a remote RADIUS server
+
+The standalone demo has been configured by default so that the test client `pap_challenge_request.pl` is run on the same localhost as the RADIUS server. 
+
+If you're trying to use the `pap_challenge_request.pl` script from a client to connect to a remote deployment of the radius server, the main parameter to change is the line:
+```
+use constant RADIUS_HOST => '127.0.0.1';
+```
+Set this variable to contain the IP and optionally port of the target radius server, for example:
+```
+use constant RADIUS_HOST => '10.10.10.10:1812';
+```
+
+The `ncat` tool has also been installed on the image, such that you can test sending a UDP packet to a remote server and port, just to see if connectivity is possible. Here's an example:
+```
+echo "test" |  ncat  -u 10.10.10.10 1812
+```
+When sending a message like this to a remote radius server not yet configured for a remote client, the trace file `/tmp/ibm-auth-api.log` on the radius server should show an error when the packet arrives, similar to:
+```
+IA: 0x6849e695: 0x76249e000700: Discard: Unable to find client for packet from ::ffff:10.176.226.76
+```
+You can use this to determine the IP address of the client (in the example above it is 10.176.226.76), and add a clients entry to `/etc/IbmRadiusConfig.json` on the RADIUS server. For example after seeing the above error I added:
+```
+        ,{
+            "name":"client2",
+            "address":"10.0.0.0",
+            "mask":"255.0.0.0",
+            "obf-secret":"/rlKSHUt1rqcU08fSytjOoFu8j7Xeg9FGvNbbNXFH7Q=",
+            "auth-method":"password-then-totp",
+            "require-msg-auth": true
+        }
+```
+Don't forget to restart the RADIUS server after editing the configuration file (see the end of `/root/resources/setup_ivg_radius.sh`):
+```
+systemctl restart ibm_radius_64
+```
+
+Next time I ran the ncat test from my remote client, I see this error in `/tmp/ibm-auth-api.log` at the RADIUS server:
+```
+IA: 0x6849e74a: 0x751cb2800700: Client for packet = 'client2' from ::ffff:10.176.226.76
+IA: 0x6849e74a: 0x751cb2800700: Discard: Unable to parse packet from ::ffff:10.176.226.76
+```
+
+This at least tells you client matching is done, and now you can remotely try use the `pap_challenge_request.pl` script from the same machine as where `ncat` was running (after updating the value of `RADIUS_HOST`).

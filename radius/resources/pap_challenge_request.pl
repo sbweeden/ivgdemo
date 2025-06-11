@@ -108,7 +108,8 @@ my $r = new Authen::Radius(
 	Host=>RADIUS_HOST,
        	Secret=>RADIUS_SECRET,
        	Timeout=>RADIUS_TIMEOUT,
-       	LocalAddr=>LOCAL_HOST,
+# Commenting the LocalAddr option out by default since its easier to use this client with a remote host when its not explictly provided
+#       	LocalAddr=>LOCAL_HOST,
 	Rfc3579MessageAuth=>"true",
        	Debug=>"true"
 );

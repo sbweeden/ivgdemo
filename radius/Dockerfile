@@ -10,6 +10,7 @@ RUN dnf install -y --nodocs \
     zip unzip \
     vim \
     net-tools \
+    nmap \
     perl \
     jq
 RUN export PERL_MM_USE_DEFAULT=1 && cpan Authen::Radius
