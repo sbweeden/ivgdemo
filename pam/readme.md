@@ -39,7 +39,7 @@ After building it, you could run it directly with docker (see `rundocker.sh`), o
 
 Ensure you have a kubernetes config set up, and kubectl is in your path and ready to run against your cluster.
 
-Create a `.env` file in the same directory as the `deploy.sh` script with real values for the following (samples shown):
+Create a `.env` file in the same directory as the `deploy.sh` script with real values for the following (samples shown, and skeleton file provided as `dotenv`):
 
 ```
 TENANT=YOURTENANT.verify.ibm.com
