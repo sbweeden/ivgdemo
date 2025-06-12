@@ -130,7 +130,7 @@ Most of the trace of the RADIUS client will appear in the console as you run the
 Specific trace of communications with your IBM Verify tenant can be seen in the `/tmp/ibm-auth-api.log` trace file:
 
 ```
-cat /tmp/pam_ibm_auth.log
+cat /tmp/ibm-auth-api.log
 ```
 
 If you ran the kubernetes setup, you should check that initialisation happened successfully:
